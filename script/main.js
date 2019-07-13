@@ -3,27 +3,11 @@ import "../js/OrbitControls.js" ;
 import "../js/OBJLoader.js";
 import "../js/GLTFLoader.js";
 import * as utils from './utils.js';
-import * as Machin from './resource.js';
+import * as BaseShape from './resource.js';
 import * as Light from './light.js';
 import FPSRate from "./fps_rate.js";
 import JSLoader from './loader.js';
 import * as Shaders from './shaders.js';
-
-
-/*
-Mission list :
-
-- Light control hud = ok
-	needs ambient light = done
-- Browse file to load = DnD
-	bug incorrect path
-- Custom shaders
-	combined shader ?
-- Switch shaders with hud
-- Format objets et skybox = whut ?
-- draggable object
-
-*/
 
 
 // FPS Manager
@@ -33,7 +17,7 @@ FPSRate();
 // ------------ SCENE
 // ------------------
 
-const sceneviewer = new Machin.SceneViewer();
+const sceneviewer = new BaseShape.SceneViewer();
 
 const ambientlight = new THREE.AmbientLight( 0x707070, 0.1);
 sceneviewer.add(ambientlight);
@@ -56,7 +40,7 @@ dlight.light.intensity = 0.4;
 dlight.move(0,3,0);
 dlight.light.target.position.set(0,0,0);
 
-const decor = Machin.SkyBox(40,40,40);
+const decor = BaseShape.SkyBox(40,40,40);
 sceneviewer.add(decor);
 
 const plane = new THREE.Mesh(
@@ -157,7 +141,7 @@ makeALightGUI(
 // ------------ PROPS
 // ------------------
 
-const cube = Machin.Cube();
+const cube = BaseShape.Cube();
 sceneviewer.add( cube );
 cube.position.x = 2;
 cube.position.y = 1;
@@ -165,7 +149,7 @@ sceneviewer.camera.position.z = 5;
 //cube.receiveShadow = true;
 cube.castShadow = true;
 
-const cube2 = Machin.Cube2();
+const cube2 = BaseShape.Cube2();
 sceneviewer.add( cube2 );
 cube2.position.x = -2;
 cube2.position.y = 0.5;
@@ -195,10 +179,12 @@ sphere.position.y = 1;
 //cube2.receiveShadow = true;
 sphere.castShadow = true;
 
+
+// Display model - place your gltf folder in the model folder and replace the relative path
 var gltfObject = null;
-load.LoadObject('model/boombox/BoomBoxWithAxes.gltf', function(machin)
+load.LoadObject('model/boombox/BoomBoxWithAxes.gltf', function(BaseShape)
 	{
-		gltfObject=machin.scene.children[0];
+		gltfObject=BaseShape.scene.children[0];
 		gltfObject.position.y=0.5;
 		gltfObject.scale.x = 50;
 		gltfObject.scale.y = 50;
